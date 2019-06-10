@@ -1,18 +1,20 @@
 function Envio_Correo (){
   // CONFIGURACIÓN //
   var Hoja = "Hoja 1";
-  var colInicial = 2;
-  var NumColEscribir = 10; // # de la columna donde se escribirá la salida, con A=0,B=1, etc.
-  var LetColEscribir = "K"; // Letra de la columna donde se escribirá, entre comillas y en mayúscula ejs. "A", "B",etc.
+  var rowInicial = 2;
+  var NumColEscribir = 2; // # de la columna donde se escribirá la salida, con A=0,B=1, etc.
+  var LetColEscribir = "C"; // Letra de la columna donde se escribirá, entre comillas y en mayúscula ejs. "A", "B",etc.
   var NombreHTML = "correo.html"; //Nombre del archivo html del mensaje (Archivo -> Nuevo -> Archivo html)
-  var NombreDelRemitente = "Name"; //Nombre 
-  var NumColCorreo = 2; // # de la columna donde se encuentra la información del correo, con A=0,B=1, etc.
-  var Asunto = "Aquí va el asuntos";
+  var NombreDelRemitente = "Quien lo envía"; //Nombre de quien lo envía
+  var NumColCorreo = 1; // # de la columna donde se encuentra la información del correo, con A=0,B=1, etc.
+  var Asunto = "Aquí va el asuntos"; //Asuntos del correo
   
   
   // LECTURA DE DATOS //
-  var Rango = Leer(Hoja,colInicial); //cargamos los datos con la CONFIGURACIÓN GENERAL
+  var Rango = Leer(Hoja,rowInicial); //cargamos los datos con la CONFIGURACIÓN GENERAL
+  
   for ( var i in Rango){ //recorremos todos los datos
+  //for ( var i = Rango.length -1 ; i >= 0; i-- ) {
     var DatosR = Rango[i]; //cargamos los datos del rengón i
     
     // CONDICIONES PARA OMITIR RENGLÓN //
@@ -20,9 +22,9 @@ function Envio_Correo (){
     
     // PERSONALIZACIÓN DEL CORREO // <-------------------------------------------
     // En este lugar se colocan las cosas a rempalzar con el formato "A remplazar":"por lo que rempezar", separados por comas
-    var remplazo = {"-NOMBRES-":DatosR[1],
+    var remplazo = {"-NOMBRE-":DatosR[0],
                     "-A_remplazar-":"Por lo que remplazar",
-                    };
+                   };
     
     // MENSAJE //
     var html = HtmlService.createHtmlOutputFromFile(NombreHTML).getContent(); //Cargamos el mensaje del archivo html
@@ -49,7 +51,7 @@ function Envio_Correo (){
       DatosEscribir[LetColEscribir] = "Error: " +e;
     } 
     
-    Escribir (DatosEscribir,i,Hoja,colInicial);
+    Escribir (DatosEscribir,i,Hoja,rowInicial);
   }
 }
 
